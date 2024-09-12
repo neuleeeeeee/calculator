@@ -1,7 +1,7 @@
 # ch 4. 2. 3 main.py
 import sys # 시스템 제어 관련 모듈(여기서는 프로그램 종료 위해 사용)
 
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout, QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout, QMessageBox, QPlainTextEdit)
 from PyQt5.QtGui import QIcon # 아이콘을 추가하기 위한 라이브러리
 
 '''
@@ -13,6 +13,10 @@ from PyQt5.QtWidgets import QApplication, QWidget
 class Calculator(QWidget) :
 
     def __init__(self) :
+
+        self.tel = QPlainTextEdit()
+        self.tel.setReadOnly(True)
+
         super().__init__() # (규칙)뭔가(QWidget)에 기반을 둘 경우 써줘야 하는 코드
         self.initUI() # 생성자에서 호출한다
     
@@ -25,7 +29,7 @@ class Calculator(QWidget) :
         self.btn1.clicked.connect(self.activateMessage) 
 
         vbox=QVBoxLayout() # 수직(V) 레이아웃 위젯 생성
-        vbox.addStretch(1) # 빈(Stretch)공간
+        vbox.addWidget(self.tel)
         vbox.addWidget(self.btn1) # 버튼 위치
         vbox.addStretch(1) # 빈(Stretch)공간
 
@@ -37,7 +41,8 @@ class Calculator(QWidget) :
         self.show()
 
     def activateMessage(self) : # 버튼을 클릭할 때 동작하는 함수 : 메세지 박스 출력
-        QMessageBox.information(self, "information", "버튼 클릭!")
+        # QMessageBox.information(self, "information", "버튼 클릭!")
+        self.tel.appendPlainText("hello!")
 
 
 # 클래스를 정의했으니, 여기에서 실행하겠다... 라는 실행부임
