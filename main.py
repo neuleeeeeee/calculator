@@ -1,7 +1,7 @@
-# ch 4. 2. 3 main.py
+# ch 4. 4. 1 main.py
 import sys # 시스템 제어 관련 모듈(여기서는 프로그램 종료 위해 사용)
 
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout, QMessageBox, QPlainTextEdit)
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout, QMessageBox, QPlainTextEdit, QHBoxLayout)
 from PyQt5.QtGui import QIcon # 아이콘을 추가하기 위한 라이브러리
 
 '''
@@ -22,15 +22,26 @@ class Calculator(QWidget) :
     
     # 초기화 한다
     def initUI(self) :
-
+        
         # btn1속성으로 "message"버튼 추가(self = calculator)
         self.btn1=QPushButton('Message', self) 
         # 버튼 클릭 시 이벤트 핸들링(클릭했을 때, 뭐를 할거다! 라고 정의하는 것) 함수 연결
         self.btn1.clicked.connect(self.activateMessage) 
+        
+        # 버튼 2 추가
+        self.btn2=QPushButton('Clear', self) 
+        # 버튼 2 핸들러 함수 연결(메시지 내용을 삭제)
+        self.btn2.clicked.connect(self.clearMessage)
+
+        hbox = QHBoxLayout() # 수평(H) 레이아웃을 추가하고 버튼1, 2 추가
+        hbox.addStretch(1)
+        hbox.addWidget(self.btn1) # 버튼 1 배치
+        hbox.addWidget(self.btn2) # 버튼 2 배치
 
         vbox=QVBoxLayout() # 수직(V) 레이아웃 위젯 생성
         vbox.addWidget(self.tel)
         vbox.addWidget(self.btn1) # 버튼 위치
+        vbox.addLayout(hbox) # btn1 위치에 hbox를 배치
         vbox.addStretch(1) # 빈(Stretch)공간
 
         self.setLayout(vbox) # 빈공간 - 버튼 - 빈공간 순으로 수직 배치된 레이아웃 설정(set) 적용
@@ -39,10 +50,13 @@ class Calculator(QWidget) :
         self.setWindowIcon(QIcon('icon.png')) # 윈도창에 아이콘 추가
         self.resize(256,256)
         self.show()
-
+    
     def activateMessage(self) : # 버튼을 클릭할 때 동작하는 함수 : 메세지 박스 출력
         # QMessageBox.information(self, "information", "버튼 클릭!")
         self.tel.appendPlainText("hello!")
+    
+    def clearMessage(self) : # 버튼 2 핸들러 함수 정의
+        self.tel.clear()
 
 
 # 클래스를 정의했으니, 여기에서 실행하겠다... 라는 실행부임
